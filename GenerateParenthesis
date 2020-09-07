@@ -1,0 +1,18 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<>();
+        permutations(list, "", n, n);
+        return list;
+    }
+    
+    public void permutations(List<String> list, String permutation, int openParen, int closedParen) {
+        if (closedParen > openParen || openParen < 0 || closedParen < 0 ) return;
+        if(closedParen == 0 && openParen == 0) {
+            list.add(permutation);
+            return;
+        }
+        permutations(list, permutation + ")", openParen -1, closedParen);
+        permutations(list, permutation + "(", openParen, closedParen - 1);
+        
+    }
+}
