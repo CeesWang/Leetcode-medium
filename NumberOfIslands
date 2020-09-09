@@ -1,0 +1,56 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        if (grid.length == 0) return 0;
+        boolean[][] visited = new boolean[grid.length][grid[0].length]; 
+        Stack<Coordinates> stack = new Stack<>();
+        int islands = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[i].length; ++j) {
+                if (!visited[i][j] && grid[i][j] != '0') {
+                    islands++;
+                    stack.add(new Coordinates(i,j));
+                    dfs(grid, visited, stack);
+                }
+            }
+        }
+        return islands;
+    }
+    
+    public void dfs(char[][]grid, boolean[][] visited, Stack<Coordinates> stack) {
+        while (!stack.isEmpty()) {
+            Coordinates c = stack.pop();
+            int x = c.x;
+            int y = c.y;
+            visited[x][y] = true;
+            if (x < grid.length - 1) {      // check down
+                if (!visited[x +1 ][y] && grid[x + 1][y] == '1') {
+                   stack.add(new Coordinates(x + 1,y));                                        
+                }
+            }
+            if (x > 0) {                      // check up
+                if (!visited[x - 1 ][y] && grid[x - 1][y] == '1') {
+                   stack.add(new Coordinates(x - 1,y));                                        
+                }
+            }
+            if (y < grid[0].length - 1) {   // check right
+                if (!visited[x][y + 1] && grid[x][y + 1] == '1') {
+                   stack.add(new Coordinates(x, y + 1));                                        
+                }
+            }
+            if (y > 0) {                    // check left
+                if (!visited[x][y - 1] && grid[x][y - 1] == '1') {
+                   stack.add(new Coordinates(x, y - 1));                                        
+                }
+            }
+        }
+    }
+    public class Coordinates {
+        int x;
+        int y;
+        
+        Coordinates(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
