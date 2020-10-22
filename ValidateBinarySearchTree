@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return inOrderTraversal(root, new ArrayList<Integer>()) ? true : false;
+    }
+    
+    public boolean inOrderTraversal(TreeNode root, ArrayList<Integer> list) {
+        if (root != null) {
+            boolean inOrder = true;
+            inOrder = inOrder && inOrderTraversal(root.left, list);
+            // check if the values are sorted in ascendinding order (BST property)
+            if (list.size() > 0 && list.get(list.size() -1) >= root.val) {    
+                return false;
+            }
+            list.add(root.val);
+            inOrder = inOrder && inOrderTraversal(root.right, list);
+            return inOrder;
+        }
+        return true;
+    }
+}
