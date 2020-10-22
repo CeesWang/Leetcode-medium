@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+// 1 2             size = 5 0 < 2 , 2 < 5
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        ArrayList<ArrayList<TreeNode>> symmetricList = new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ArrayList<TreeNode> list = new ArrayList<>();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                list.add(node);
+                if (node != null) {
+                    queue.add(node.left);
+                    queue.add(node.right);                            
+                }
+            }
+            symmetricList.add(list);
+        }
+        for (ArrayList<TreeNode> list : symmetricList) {
+            int begin = 0;
+            int end = list.size() -1;
+            while (begin < end) {
+                if (list.get(begin) == null && list.get(end) == null) {     // they are both null
+                    begin++;
+                    end--;
+                    continue;
+                }
+                if (list.get(begin) == null || list.get(end) == null) {     // one of them is null 
+                    return false;
+                }
+                if (list.get(begin).val != list.get(end).val) {
+                    return false;    
+                }
+                begin++;
+                end--;
+            }
+        }
+        return true;
+    }
+}
