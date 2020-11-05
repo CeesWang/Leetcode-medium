@@ -1,0 +1,41 @@
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int n, int[][] prerequisites, int[][] queries) {
+        if (prerequisites.length == 0) {
+            ArrayList<Boolean> ans = new ArrayList<>();
+            for (int i = 0; i < queries.length; ++i) {
+                ans.add(false);
+            }
+            return ans;
+        }
+        ArrayList<Boolean> ans = new ArrayList<>();
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<>();
+        for (int [] prereq : prerequisites) {       // make the graph
+            int a = prereq[0];
+            int b = prereq[1];
+            HashSet<Integer> neighbors = graph.getOrDefault(a, new HashSet<>());
+            neighbors.add(b);
+            graph.put(a, neighbors);
+        }
+        
+        for (int [] query : queries) {
+            int prereq = query[0];
+            int target = query[1];
+            ans.add(DFS(graph, prereq, target));
+        }
+        return ans;
+    }
+    
+    public boolean DFS (HashMap<Integer, HashSet<Integer>> graph, int prereq, int target) {
+        if (graph.containsKey(prereq)) {
+            if (graph.get(prereq).contains(target)) {
+                return true;
+            }
+            for (Integer neighbor : graph.get(prereq)) {
+                if (DFS(graph, neighbor, target)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
