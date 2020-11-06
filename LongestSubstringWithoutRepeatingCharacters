@@ -17,3 +17,25 @@ class Solution {
         return longest;
     }
 }
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashSet<Character> set = new HashSet<>();
+        int longest = 0, slow = 0, fast = 0;
+        int len = s.length();
+        while (fast < len) {
+            char fastChar = s.charAt(fast);
+            if (set.contains(fastChar)) {
+                set.remove(s.charAt(slow));
+                slow++;
+            }
+            else {
+                set.add(fastChar);
+                fast++;
+            }
+            
+            longest = Math.max(longest, set.size());
+        }
+        return longest;
+    }
+}
