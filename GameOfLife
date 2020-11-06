@@ -1,0 +1,44 @@
+class Solution {
+    public void gameOfLife(int[][] board) {
+        int[][] graph = new int [board.length + 2][board[0].length + 2];
+        for (int row = 0; row < board.length; ++row) {      // fill the graph
+            for (int col = 0; col < board[0].length; ++col) {
+                graph[row + 1][col + 1] = board[row][col];
+            }
+        }
+        for (int row = 0; row < board.length; ++row) {      // loop t
+            for (int col = 0; col < board[0].length; ++col) {
+                board[row][col] = isAlive(graph, row + 1, col + 1);
+            }
+        }
+    }
+    
+    public int isAlive(int[][] graph, int row, int col) {
+        int neighbors = 0;
+        if (graph[row - 1][col - 1] == 1) {
+            neighbors++;
+        }
+        if (graph[row - 1][col    ] == 1) {
+            neighbors++;
+        }
+        if (graph[row - 1][col + 1] == 1) {
+            neighbors++;
+        }
+        if (graph[row    ][col - 1] == 1) {
+            neighbors++;
+        }
+        if (graph[row    ][col + 1] == 1) {
+            neighbors++;
+        }
+        if (graph[row + 1][col - 1] == 1) {
+            neighbors++;
+        }
+        if (graph[row + 1][col    ] == 1) {
+            neighbors++;
+        }
+        if (graph[row + 1][col + 1] == 1) {
+            neighbors++;
+        }
+        return ( (graph[row][col] == 0 && neighbors == 3) || (graph[row][col] == 1 && (neighbors == 2 || neighbors == 3) ) ) ? 1 : 0;
+    }
+}
